@@ -98,22 +98,23 @@ cd portfolio
 
 ### 2. Set Up Environment Variables
 
-**Create a `.env.local` file** in the project root:
+You need to create a `.env.local` file with your email credentials.
+
+**Option A: Copy from template**
 
 ```bash
-cd /path/to/portfolio
+cd portfolio
 
-# Create .env.local file
-cat > .env.local << 'EOF'
-MAIL_USERNAME=your-email@gmail.com
-MAIL_PASSWORD=your-gmail-app-password
-CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
-EOF
+# Copy the example file
+cp .env.example .env.local
+
+# Edit with your actual credentials
+nano .env.local
 ```
 
-**Or manually create the file:**
+**Option B: Create manually**
 
-Create a file named `.env.local` in the project root and add:
+Create a file named `.env.local` in the project root:
 
 ```env
 MAIL_USERNAME=your-email@gmail.com
@@ -121,10 +122,23 @@ MAIL_PASSWORD=your-gmail-app-password
 CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
 ```
 
+**Option C: Use command line**
+
+```bash
+cd portfolio
+
+cat > .env.local << 'EOF'
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-gmail-app-password
+CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
+EOF
+```
+
 > **⚠️ Important:** 
 > - Replace `your-email@gmail.com` with your actual Gmail address
 > - Replace `your-gmail-app-password` with a Gmail App Password (see below)
-> - The `.env.local` file is already in `.gitignore` and won't be committed to Git
+> - The `.env.local` file is in `.gitignore` and won't be committed to Git
+> - **Never commit credentials to Git!**
 
 #### 📧 Generate Gmail App Password
 
