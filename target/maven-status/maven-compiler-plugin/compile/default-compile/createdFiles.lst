@@ -1,2 +1,5 @@
 com/analjyoti/portfolio/controller/HomeController.class
+com/analjyoti/portfolio/controller/ContactController.class
 com/analjyoti/portfolio/PortfolioApplication.class
+com/analjyoti/portfolio/dto/ContactRequest.class
+com/analjyoti/portfolio/service/EmailService.class

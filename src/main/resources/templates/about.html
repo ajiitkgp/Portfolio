@@ -8,26 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <a href="/">AJ</a>
-            </div>
-            <div class="nav-menu" id="navMenu">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/about" class="nav-link active">About</a>
-                <a href="/experience" class="nav-link">Experience</a>
-                <a href="/projects" class="nav-link">Projects</a>
-                <a href="/contact" class="nav-link">Contact</a>
-            </div>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
+    <div th:replace="fragments/layout :: navbar(${activePage})"></div>
 
     <!-- About Section -->
     <section class="about-section">
@@ -69,12 +50,13 @@
                     <div class="stat-card">
                         <h3>🎓</h3>
                         <h4>Education</h4>
-                        <p>Computer Science Background</p>
+                        <p>Aerospace Engineering</p>
+                        <p>IIT Kharagpur</p>
                     </div>
                     <div class="stat-card">
                         <h3>💼</h3>
                         <h4>Experience</h4>
-                        <p>Software Development Engineer</p>
+                        <p>Software Development Engineer - 1 at HiLabs</p>
                     </div>
                     <div class="stat-card">
                         <h3>🏆</h3>
@@ -91,13 +73,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Anal Jyoti. All rights reserved.</p>
-            <p>Built with Spring Boot & ❤️</p>
-        </div>
-    </footer>
+    <div th:replace="fragments/layout :: footer"></div>
 
     <script th:src="@{/js/script.js}"></script>
 </body>

@@ -1,0 +1,27 @@
+<nav class="navbar" th:fragment="navbar(activePage)" xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <div class="nav-brand">
+            <a href="/" th:href="@{/}">Anal Jyoti</a>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="/" th:href="@{/}" th:class="'nav-link' + (${activePage} == 'home' ? ' active' : '')">Home</a>
+            <a href="/about" th:href="@{/about}" th:class="'nav-link' + (${activePage} == 'about' ? ' active' : '')">About</a>
+            <a href="/experience" th:href="@{/experience}" th:class="'nav-link' + (${activePage} == 'experience' ? ' active' : '')">Experience</a>
+            <a href="/projects" th:href="@{/projects}" th:class="'nav-link' + (${activePage} == 'projects' ? ' active' : '')">Projects</a>
+            <a href="/contact" th:href="@{/contact}" th:class="'nav-link' + (${activePage} == 'contact' ? ' active' : '')">Contact</a>
+        </div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</nav>
+
+<footer class="footer" th:fragment="footer" xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <p th:text="'© ' + ${#temporals.format(#temporals.createNow(), 'yyyy')} + ' Anal Jyoti. All rights reserved.'">© 2025 Anal Jyoti. All rights reserved.</p>
+        <p>Built with Spring Boot</p>
+    </div>
+</footer>
+
