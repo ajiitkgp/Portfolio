@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Anal Jyoti</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/">AJ</a>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/about" class="nav-link active">About</a>
+                <a href="/experience" class="nav-link">Experience</a>
+                <a href="/projects" class="nav-link">Projects</a>
+                <a href="/contact" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="container">
+            <h1 class="page-title">About Me</h1>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Who Am I?</h2>
+                    <p>
+                        I'm a passionate Software Development Engineer with a strong foundation in algorithms, 
+                        data structures, and backend development. My journey in software engineering is driven 
+                        by a love for solving complex problems and building efficient, scalable solutions.
+                    </p>
+                    
+                    <h2>My Journey</h2>
+                    <p>
+                        With expertise in Java and Spring Boot, I specialize in creating robust backend systems 
+                        and RESTful APIs. My competitive programming experience has sharpened my problem-solving 
+                        abilities and algorithmic thinking, which I apply to real-world software development challenges.
+                    </p>
+                    
+                    <h2>What Drives Me</h2>
+                    <p>
+                        I'm constantly learning and exploring new technologies. Whether it's participating in 
+                        coding competitions like Facebook Hacker Cup, contributing to open-source projects, or 
+                        building innovative applications, I'm always pushing my boundaries to grow as a developer.
+                    </p>
+                    
+                    <h2>Beyond Code</h2>
+                    <p>
+                        When I'm not coding, you'll find me solving algorithmic puzzles on Codeforces and CodeChef, 
+                        reading about system design patterns, or exploring the latest trends in software architecture 
+                        and cloud computing.
+                    </p>
+                </div>
+                
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <h3>🎓</h3>
+                        <h4>Education</h4>
+                        <p>Computer Science Background</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>💼</h3>
+                        <h4>Experience</h4>
+                        <p>Software Development Engineer</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>🏆</h3>
+                        <h4>Competitions</h4>
+                        <p>Active Competitive Programmer</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>🚀</h3>
+                        <h4>Projects</h4>
+                        <p>Multiple Full-Stack Applications</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Anal Jyoti. All rights reserved.</p>
+            <p>Built with Spring Boot & ❤️</p>
+        </div>
+    </footer>
+
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>
+

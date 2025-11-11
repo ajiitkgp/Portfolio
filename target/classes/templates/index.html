@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anal Jyoti - Portfolio</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/">AJ</a>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="/" class="nav-link active">Home</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/experience" class="nav-link">Experience</a>
+                <a href="/projects" class="nav-link">Projects</a>
+                <a href="/contact" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Hi, I'm <span class="highlight" th:text="${name}">Anal Jyoti</span>
+                </h1>
+                <h2 class="hero-subtitle" th:text="${title}">Software Development Engineer</h2>
+                <p class="hero-description">
+                    Passionate software engineer specializing in backend development, algorithms, 
+                    and competitive programming. Building scalable solutions with Java, Spring Boot, 
+                    and modern web technologies.
+                </p>
+                <div class="hero-buttons">
+                    <a href="/projects" class="btn btn-primary">View Projects</a>
+                    <a href="/contact" class="btn btn-secondary">Get in Touch</a>
+                </div>
+                <div class="social-links">
+                    <a th:href="${github}" target="_blank" class="social-icon" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a th:href="${linkedin}" target="_blank" class="social-icon" title="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a th:href="${codeforces}" target="_blank" class="social-icon" title="Codeforces">
+                        <i class="fas fa-code"></i>
+                    </a>
+                    <a th:href="${codechef}" target="_blank" class="social-icon" title="CodeChef">
+                        <i class="fas fa-laptop-code"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fab fa-java skill-icon"></i>
+                    <h3>Backend Development</h3>
+                    <p>Java, Spring Boot, REST APIs, Microservices</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-database skill-icon"></i>
+                    <h3>Databases</h3>
+                    <p>MySQL, PostgreSQL, MongoDB, Redis</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-brain skill-icon"></i>
+                    <h3>Algorithms & DSA</h3>
+                    <p>Competitive Programming, Problem Solving</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-react skill-icon"></i>
+                    <h3>Frontend</h3>
+                    <p>HTML, CSS, JavaScript, React</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-tools skill-icon"></i>
+                    <h3>DevOps & Tools</h3>
+                    <p>Git, Docker, AWS, CI/CD</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-laptop-code skill-icon"></i>
+                    <h3>Other Technologies</h3>
+                    <p>Python, C++, Linux, System Design</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section class="achievements">
+        <div class="container">
+            <h2 class="section-title">Achievements & Competitive Programming</h2>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon">🏆</div>
+                    <h3>Facebook Hacker Cup 2024</h3>
+                    <p>Successfully qualified and participated in the prestigious coding competition</p>
+                    <a href="https://www.facebook.com/codingcompetitions/hacker-cup/2024/certificate/579350890518957" 
+                       target="_blank" class="achievement-link">View Certificate</a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">💻</div>
+                    <h3>Codeforces Profile</h3>
+                    <p>Active competitive programmer solving algorithmic challenges</p>
+                    <a th:href="${codeforces}" target="_blank" class="achievement-link">View Profile</a>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">👨‍💻</div>
+                    <h3>CodeChef</h3>
+                    <p>Regular participant in coding contests and challenges</p>
+                    <a th:href="${codechef}" target="_blank" class="achievement-link">View Profile</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Anal Jyoti. All rights reserved.</p>
+            <p>Built with Spring Boot & ❤️</p>
+        </div>
+    </footer>
+
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>
+
