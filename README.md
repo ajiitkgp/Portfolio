@@ -96,34 +96,80 @@ git clone https://github.com/ajiitkgp/portfolio.git
 cd portfolio
 ```
 
-### 2. Configure Email (For Contact Form)
+### 2. Set Up Environment Variables
 
-Edit `src/main/resources/application.properties`:
+**Create a `.env.local` file** in the project root:
 
-```properties
-spring.mail.username=your-email@gmail.com
-spring.mail.password=your-app-password
-contact.recipient.email=your-email@gmail.com
+```bash
+cd /path/to/portfolio
+
+# Create .env.local file
+cat > .env.local << 'EOF'
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-gmail-app-password
+CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
+EOF
 ```
 
-> **Note:** Generate a Gmail App Password at [Google Account Security](https://myaccount.google.com/apppasswords)
+**Or manually create the file:**
+
+Create a file named `.env.local` in the project root and add:
+
+```env
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-gmail-app-password
+CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
+```
+
+> **⚠️ Important:** 
+> - Replace `your-email@gmail.com` with your actual Gmail address
+> - Replace `your-gmail-app-password` with a Gmail App Password (see below)
+> - The `.env.local` file is already in `.gitignore` and won't be committed to Git
+
+#### 📧 Generate Gmail App Password
+
+1. Go to [Google Account Security](https://myaccount.google.com/security)
+2. Enable **2-Step Verification** (if not already enabled)
+3. Go to [App Passwords](https://myaccount.google.com/apppasswords)
+4. Select **Mail** → **Other (Custom name)** → Type "Portfolio"
+5. Click **Generate**
+6. Copy the 16-character password
+7. Use this password in your `.env.local` file
 
 ### 3. Run the Application
 
-**Option A: Using the provided script**
+**Option A: Using the run script (Recommended)**
+
 ```bash
 chmod +x run.sh
 ./run.sh
 ```
 
-**Option B: Using Maven**
+The script automatically loads environment variables from `.env.local` and starts the app.
+
+**Option B: Using Maven with manual env vars**
+
 ```bash
+# Load environment variables
+export MAIL_USERNAME=your-email@gmail.com
+export MAIL_PASSWORD=your-app-password
+export CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
+
+# Run the app
 mvn spring-boot:run
 ```
 
 **Option C: Build and run JAR**
+
 ```bash
+# Build
 mvn clean package
+
+# Run with environment variables
+export MAIL_USERNAME=your-email@gmail.com
+export MAIL_PASSWORD=your-app-password
+export CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
+
 java -jar target/portfolio-1.0.0.jar
 ```
 
@@ -132,6 +178,112 @@ java -jar target/portfolio-1.0.0.jar
 Open your browser and navigate to:
 ```
 http://localhost:8080
+```
+
+---
+
+## 🔧 Local Development Setup (Step-by-Step)
+
+### Complete Setup Guide
+
+1. **Install Prerequisites**
+   ```bash
+   # Check Java version
+   java -version  # Should be 17+
+   
+   # Check Maven version
+   mvn -version   # Should be 3.6+
+   ```
+
+2. **Clone and Navigate**
+   ```bash
+   git clone https://github.com/ajiitkgp/portfolio.git
+   cd portfolio
+   ```
+
+3. **Create Environment File**
+   ```bash
+   # Option 1: Using echo commands
+   echo "MAIL_USERNAME=your-email@gmail.com" > .env.local
+   echo "MAIL_PASSWORD=your-app-password" >> .env.local
+   echo "CONTACT_RECIPIENT_EMAIL=your-email@gmail.com" >> .env.local
+   
+   # Option 2: Using a text editor
+   nano .env.local
+   # Paste the variables, save and exit (Ctrl+X, Y, Enter)
+   ```
+
+4. **Get Gmail App Password**
+   - Visit: https://myaccount.google.com/apppasswords
+   - Create new app password for "Mail"
+   - Copy the 16-character code
+   - Update `.env.local` with this password
+
+5. **Run the Application**
+   ```bash
+   ./run.sh
+   ```
+
+6. **Test the Portfolio**
+   - Open: http://localhost:8080
+   - Navigate through all pages
+   - Test the contact form
+   - Check your Gmail for test emails
+
+### 🐛 Troubleshooting Local Setup
+
+#### Issue: "Could not resolve placeholder 'MAIL_USERNAME'"
+
+**Solution:** Environment variables not loaded.
+
+```bash
+# Make sure .env.local exists
+ls -la .env.local
+
+# If missing, create it
+cat > .env.local << 'EOF'
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-app-password
+CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
+EOF
+
+# Use ./run.sh instead of mvn spring-boot:run
+./run.sh
+```
+
+#### Issue: "Authentication failed" for email
+
+**Solution:** Wrong password or not using App Password.
+
+```bash
+# 1. Go to https://myaccount.google.com/apppasswords
+# 2. Generate NEW app password
+# 3. Update .env.local with NEW password (remove any spaces)
+# 4. Restart the app
+./run.sh
+```
+
+#### Issue: Port 8080 already in use
+
+**Solution:** Another app is using port 8080.
+
+```bash
+# Option 1: Kill the process
+lsof -ti:8080 | xargs kill -9
+
+# Option 2: Use a different port
+export PORT=8081
+./run.sh
+# Access at http://localhost:8081
+```
+
+#### Issue: Maven build fails
+
+**Solution:** Clean and rebuild.
+
+```bash
+mvn clean install
+./run.sh
 ```
 
 ---
@@ -346,25 +498,6 @@ Edit `src/main/resources/templates/projects.html`:
 
 Edit `src/main/resources/templates/experience.html` to add your work experience, internships, and education details.
 
----
-
-## 🌐 Deployment
-
-### Deploy to Heroku
-
-```bash
-# Create Procfile
-echo "web: java -jar target/portfolio-1.0.0.jar" > Procfile
-
-# Set environment variables
-heroku config:set MAIL_USERNAME=your-email@gmail.com
-heroku config:set MAIL_PASSWORD=your-app-password
-
-# Deploy
-heroku create your-portfolio-name
-git push heroku main
-```
-
 ### Deploy to Render
 
 1. Connect GitHub repository
@@ -373,41 +506,6 @@ git push heroku main
    - `MAIL_PASSWORD`
    - `CONTACT_RECIPIENT_EMAIL`
 3. Render auto-detects Spring Boot
-
-### Deploy to Railway
-
-1. Import GitHub repository
-2. Add environment variables
-3. Railway handles the rest
-
-### Deploy to AWS Elastic Beanstalk
-
-```bash
-mvn clean package
-eb init
-eb create portfolio-env
-eb deploy
-```
-
-### Environment Variables for Production
-
-Update `application.properties` for production:
-
-```properties
-spring.mail.username=${MAIL_USERNAME}
-spring.mail.password=${MAIL_PASSWORD}
-contact.recipient.email=${CONTACT_RECIPIENT_EMAIL}
-```
-
----
-
-## 🔗 Links
-
-- 💼 **Portfolio**: [Live Site](https://your-portfolio-url.com)
-- 🐙 **GitHub**: [https://github.com/ajiitkgp](https://github.com/ajiitkgp)
-- 💼 **LinkedIn**: [Anal Jyoti](https://www.linkedin.com/in/anal-jyoti-2a5b211ba/)
-- 💻 **Codeforces**: [less_than_green](https://codeforces.com/profile/less_than_green)
-- 👨‍💻 **CodeChef**: [ajsingh176](https://www.codechef.com/users/ajsingh176)
 
 ---
 
@@ -443,35 +541,5 @@ This is a personal portfolio project, but feel free to:
 
 For questions, collaborations, or just to say hi:
 
-- **Email**: analjyoti176@gmail.com
 - **LinkedIn**: [Connect with me](https://www.linkedin.com/in/anal-jyoti-2a5b211ba/)
 - **GitHub**: [@ajiitkgp](https://github.com/ajiitkgp)
-
----
-
-## 🙏 Acknowledgments
-
-- Spring Boot Team for the excellent framework
-- Font Awesome for icons
-- Thymeleaf for templating
-- The open-source community
-
----
-
-## 📊 Project Stats
-
-- **Lines of Code**: ~3,000+
-- **Pages**: 5 (Home, About, Experience, Projects, Contact)
-- **Components**: Reusable fragments (navbar, footer)
-- **API Endpoints**: 1 (Contact form)
-- **Dependencies**: 6 (Spring Boot, Thymeleaf, Mail, etc.)
-
----
-
-<div align="center">
-
-**Built with ❤️ using Spring Boot**
-
-⭐ Star this repo if you find it helpful!
-
-</div>
