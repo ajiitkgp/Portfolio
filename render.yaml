@@ -7,9 +7,7 @@ services:
     envVars:
       - key: JAVA_VERSION
         value: 17
-      - key: MAIL_USERNAME
-        sync: false
-      - key: MAIL_PASSWORD
+      - key: SENDGRID_API_KEY
         sync: false
       - key: CONTACT_RECIPIENT_EMAIL
         sync: false

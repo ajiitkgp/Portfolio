@@ -42,7 +42,7 @@ A modern, professional portfolio website built with **Spring Boot** and **Thymel
 ### Special Features
 - 📱 **Mobile Navigation** - Responsive hamburger menu
 - 🏆 **Competitive Programming** - Integration with Codeforces, CodeChef profiles
-- 📬 **Working Contact Form** - Real email sending via Spring Mail
+- 📬 **Working Contact Form** - Real email sending via SendGrid API
 - 🎨 **Smooth Animations** - Scroll-triggered and hover effects
 - 🔒 **Form Validation** - Client and server-side validation
 
@@ -56,7 +56,7 @@ A modern, professional portfolio website built with **Spring Boot** and **Thymel
 | **Java** | 17 | Core programming language |
 | **Spring Boot** | 3.2.0 | Application framework |
 | **Spring Web** | 3.2.0 | Web MVC and REST APIs |
-| **Spring Mail** | 3.2.0 | Email functionality |
+| **SendGrid** | 4.9.3 | Email sending service |
 | **Thymeleaf** | 3.2.0 | Template engine |
 | **Maven** | 3.9.5 | Build and dependency management |
 
@@ -76,7 +76,7 @@ Before you begin, ensure you have the following installed:
 
 - ☕ **Java 17 or higher** - [Download JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 - 📦 **Maven 3.6+** - [Download Maven](https://maven.apache.org/download.cgi)
-- 📧 **Gmail Account** - For contact form functionality (with 2FA enabled)
+- 📧 **SendGrid Account** - For contact form functionality (100 free emails/day)
 
 ### Verify Installation
 
@@ -98,7 +98,7 @@ cd portfolio
 
 ### 2. Set Up Environment Variables
 
-You need to create a `.env.local` file with your email credentials.
+You need to create a `.env.local` file with your SendGrid credentials.
 
 **Option A: Copy from template**
 
@@ -117,8 +117,7 @@ nano .env.local
 Create a file named `.env.local` in the project root:
 
 ```env
-MAIL_USERNAME=your-email@gmail.com
-MAIL_PASSWORD=your-gmail-app-password
+SENDGRID_API_KEY=your_sendgrid_api_key_here
 CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
 ```
 
@@ -128,27 +127,37 @@ CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
 cd portfolio
 
 cat > .env.local << 'EOF'
-MAIL_USERNAME=your-email@gmail.com
-MAIL_PASSWORD=your-gmail-app-password
+SENDGRID_API_KEY=your_sendgrid_api_key_here
 CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
 EOF
 ```
 
 > **⚠️ Important:** 
-> - Replace `your-email@gmail.com` with your actual Gmail address
-> - Replace `your-gmail-app-password` with a Gmail App Password (see below)
+> - Replace `your_sendgrid_api_key_here` with your actual SendGrid API key
+> - Replace `your-email@gmail.com` with your email address
 > - The `.env.local` file is in `.gitignore` and won't be committed to Git
 > - **Never commit credentials to Git!**
 
-#### 📧 Generate Gmail App Password
+#### 📧 Get SendGrid API Key
 
-1. Go to [Google Account Security](https://myaccount.google.com/security)
-2. Enable **2-Step Verification** (if not already enabled)
-3. Go to [App Passwords](https://myaccount.google.com/apppasswords)
-4. Select **Mail** → **Other (Custom name)** → Type "Portfolio"
-5. Click **Generate**
-6. Copy the 16-character password
-7. Use this password in your `.env.local` file
+1. **Sign up for SendGrid** (FREE - 100 emails/day):
+   - Visit: https://signup.sendgrid.com/
+   - Complete the signup process
+
+2. **Verify your sender email**:
+   - Go to: https://app.sendgrid.com/settings/sender_auth/senders
+   - Click "Create New Sender"
+   - Enter your email address and verify it
+   - Check your email and click the verification link
+
+3. **Create an API Key**:
+   - Go to: https://app.sendgrid.com/settings/api_keys
+   - Click "Create API Key"
+   - Name: "Portfolio Website"
+   - Permissions: Select "Restricted Access" → Check "Mail Send" → "Full Access"
+   - Click "Create & View"
+   - **Copy the API key** (you won't see it again!)
+   - Paste it into your `.env.local` file
 
 ### 3. Run the Application
 
@@ -165,8 +174,7 @@ The script automatically loads environment variables from `.env.local` and start
 
 ```bash
 # Load environment variables
-export MAIL_USERNAME=your-email@gmail.com
-export MAIL_PASSWORD=your-app-password
+export SENDGRID_API_KEY=your_sendgrid_api_key
 export CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
 
 # Run the app
@@ -180,8 +188,7 @@ mvn spring-boot:run
 mvn clean package
 
 # Run with environment variables
-export MAIL_USERNAME=your-email@gmail.com
-export MAIL_PASSWORD=your-app-password
+export SENDGRID_API_KEY=your_sendgrid_api_key
 export CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
 
 java -jar target/portfolio-1.0.0.jar
@@ -218,8 +225,7 @@ http://localhost:8080
 3. **Create Environment File**
    ```bash
    # Option 1: Using echo commands
-   echo "MAIL_USERNAME=your-email@gmail.com" > .env.local
-   echo "MAIL_PASSWORD=your-app-password" >> .env.local
+   echo "SENDGRID_API_KEY=your_sendgrid_api_key" > .env.local
    echo "CONTACT_RECIPIENT_EMAIL=your-email@gmail.com" >> .env.local
    
    # Option 2: Using a text editor
@@ -227,11 +233,12 @@ http://localhost:8080
    # Paste the variables, save and exit (Ctrl+X, Y, Enter)
    ```
 
-4. **Get Gmail App Password**
-   - Visit: https://myaccount.google.com/apppasswords
-   - Create new app password for "Mail"
-   - Copy the 16-character code
-   - Update `.env.local` with this password
+4. **Get SendGrid API Key**
+   - Sign up: https://signup.sendgrid.com/ (FREE - 100 emails/day)
+   - Verify your sender email
+   - Create API key: https://app.sendgrid.com/settings/api_keys
+   - Copy the API key
+   - Update `.env.local` with this key
 
 5. **Run the Application**
    ```bash
@@ -246,7 +253,7 @@ http://localhost:8080
 
 ### 🐛 Troubleshooting Local Setup
 
-#### Issue: "Could not resolve placeholder 'MAIL_USERNAME'"
+#### Issue: "Could not resolve placeholder 'SENDGRID_API_KEY'"
 
 **Solution:** Environment variables not loaded.
 
@@ -256,8 +263,7 @@ ls -la .env.local
 
 # If missing, create it
 cat > .env.local << 'EOF'
-MAIL_USERNAME=your-email@gmail.com
-MAIL_PASSWORD=your-app-password
+SENDGRID_API_KEY=your_sendgrid_api_key
 CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
 EOF
 
@@ -265,14 +271,16 @@ EOF
 ./run.sh
 ```
 
-#### Issue: "Authentication failed" for email
+#### Issue: "Failed to send email" or 401/403 errors
 
-**Solution:** Wrong password or not using App Password.
+**Solution:** Invalid SendGrid API key or unverified sender.
 
 ```bash
-# 1. Go to https://myaccount.google.com/apppasswords
-# 2. Generate NEW app password
-# 3. Update .env.local with NEW password (remove any spaces)
+# 1. Verify your sender email in SendGrid:
+#    https://app.sendgrid.com/settings/sender_auth/senders
+# 2. Generate a NEW API key with "Mail Send" permission:
+#    https://app.sendgrid.com/settings/api_keys
+# 3. Update .env.local with the NEW API key
 # 4. Restart the app
 ./run.sh
 ```
@@ -345,22 +353,17 @@ portfolio/
 
 ```properties
 # Server Configuration
-server.port=8080
+server.port=${PORT:8080}
 
 # Thymeleaf Configuration
 spring.thymeleaf.cache=false
 spring.thymeleaf.enabled=true
 
-# Mail Configuration (Gmail SMTP)
-spring.mail.host=smtp.gmail.com
-spring.mail.port=587
-spring.mail.username=your-email@gmail.com
-spring.mail.password=your-app-password
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
+# SendGrid Configuration
+sendgrid.api.key=${SENDGRID_API_KEY}
 
 # Contact Form
-contact.recipient.email=your-email@gmail.com
+contact.recipient.email=${CONTACT_RECIPIENT_EMAIL}
 ```
 
 ### Personal Information
@@ -413,32 +416,44 @@ model.addAttribute("linkedin", "https://linkedin.com/in/yourprofile");
 
 ## 📬 Contact Form Setup
 
-The contact form requires Gmail SMTP configuration to send actual emails.
+The contact form uses **SendGrid** to send actual emails (100 free emails/day).
 
 ### Step-by-Step Guide
 
-#### 1. Enable 2-Factor Authentication
-1. Visit: [Google Account Security](https://myaccount.google.com/security)
-2. Enable 2-Step Verification
+#### 1. Sign Up for SendGrid (FREE)
+1. Visit: https://signup.sendgrid.com/
+2. Complete the signup process
+3. Verify your email address
 
-#### 2. Generate App Password
-1. Visit: [App Passwords](https://myaccount.google.com/apppasswords)
-2. Select: **Mail** → **Other (Custom name)** → "Portfolio"
-3. Copy the 16-character password
+#### 2. Verify Your Sender Email
+1. Go to: https://app.sendgrid.com/settings/sender_auth/senders
+2. Click "Create New Sender"
+3. Enter your email (e.g., `analjyoti176@gmail.com`)
+4. Fill in required details
+5. Check your email and click verification link
 
-#### 3. Update Configuration
-Edit `application.properties`:
-```properties
-spring.mail.username=analjyoti176@gmail.com
-spring.mail.password=your-16-char-app-password
-contact.recipient.email=analjyoti176@gmail.com
+#### 3. Create API Key
+1. Go to: https://app.sendgrid.com/settings/api_keys
+2. Click "Create API Key"
+3. Name: "Portfolio Website"
+4. Permissions: **Restricted Access** → **Mail Send** → **Full Access**
+5. Click "Create & View"
+6. **Copy the API key** (won't be shown again!)
+
+#### 4. Update Local Configuration
+Create/update `.env.local`:
+```env
+SENDGRID_API_KEY=your_actual_sendgrid_api_key
+CONTACT_RECIPIENT_EMAIL=analjyoti176@gmail.com
 ```
 
-#### 4. Test the Form
-1. Run the application
+#### 5. Test the Form
+1. Run the application: `./run.sh`
 2. Navigate to `http://localhost:8080/contact`
 3. Fill and submit the form
-4. Check your Gmail inbox
+4. Check your email inbox
+
+> **💡 Tip:** SendGrid offers 100 free emails per day, which is perfect for portfolio contact forms!
 
 ### API Endpoint
 
@@ -512,14 +527,52 @@ Edit `src/main/resources/templates/projects.html`:
 
 Edit `src/main/resources/templates/experience.html` to add your work experience, internships, and education details.
 
+## 🚀 Deployment
+
 ### Deploy to Render
 
-1. Connect GitHub repository
-2. Set environment variables:
-   - `MAIL_USERNAME`
-   - `MAIL_PASSWORD`
-   - `CONTACT_RECIPIENT_EMAIL`
-3. Render auto-detects Spring Boot
+1. **Push to GitHub**
+   ```bash
+   git add .
+   git commit -m "Portfolio website with SendGrid integration"
+   git push origin main
+   ```
+
+2. **Connect to Render**
+   - Go to: https://dashboard.render.com/
+   - Click "New" → "Web Service"
+   - Connect your GitHub repository
+
+3. **Configure Settings**
+   - **Name**: `your-portfolio`
+   - **Environment**: Docker
+   - **Build Command**: `mvn clean package -DskipTests`
+   - **Start Command**: `java -jar target/portfolio-1.0.0.jar`
+
+4. **Set Environment Variables**
+   Go to "Environment" tab and add:
+   ```
+   SENDGRID_API_KEY=your_sendgrid_api_key
+   CONTACT_RECIPIENT_EMAIL=your-email@gmail.com
+   ```
+
+5. **Deploy**
+   - Click "Create Web Service"
+   - Wait for deployment (3-5 minutes)
+   - Your portfolio will be live! 🎉
+
+> **✅ Why SendGrid works on Render's free tier:**
+> - Uses HTTPS API (not SMTP port 587)
+> - No firewall restrictions
+> - More reliable than Gmail SMTP
+> - Better email deliverability
+
+### Alternative Hosting Options
+
+- **Railway.app** - Similar to Render, free tier available
+- **Heroku** - Free dyno hours available
+- **AWS Elastic Beanstalk** - Free tier for 12 months
+- **DigitalOcean App Platform** - $5/month
 
 ---
 
